@@ -24,6 +24,8 @@ describe('Testes de Login:', () => {
             });
 
     expect(loginResposta.status).to.equal(400);
+    expect(loginResposta.body.error).to.equal('Os campos "email" e "senha" são obrigatórios.');
+
     })
 
     it('CT03: Deve retornar 400 quando a Senha não for informada', async () => {
@@ -35,6 +37,7 @@ describe('Testes de Login:', () => {
             });
 
     expect(loginResposta.status).to.equal(400);
+    expect(loginResposta.body.error).to.equal('Os campos "email" e "senha" são obrigatórios.');
     })
 
     it('CT04: Deve retornar 401 quando o Email for incorreto', async () => {
@@ -47,6 +50,7 @@ describe('Testes de Login:', () => {
             });
 
     expect(loginResposta.status).to.equal(401);
+    expect(loginResposta.body.error).to.equal('E-mail ou senha inválidos.');
     });
 
         it('CT05: Deve retornar 401 quando a Senha for incorreta', async () => {
@@ -59,5 +63,6 @@ describe('Testes de Login:', () => {
             });
 
     expect(loginResposta.status).to.equal(401);
+    expect(loginResposta.body.error).to.equal('E-mail ou senha inválidos.');
     });
 });
