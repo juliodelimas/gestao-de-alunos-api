@@ -75,4 +75,13 @@ export function estaMatriculado(alunoId, disciplinaId) {
   return db.all('matriculas').some((m) => m.alunoId === alunoId && m.disciplinaId === disciplinaId);
 }
 
-export default { listar, buscarPorId, criar, atualizar, remover, matricular, listarAlunos, estaMatriculado };
+export default {
+  listar,
+  buscarPorId,
+  criar,
+  atualizar,
+  remover,
+  matricular,
+  listarAlunos,
+  estaMatriculado,
+};

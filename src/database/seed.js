@@ -18,15 +18,30 @@ function seedAdministradores() {
     },
   ];
   administradores.forEach((admin) =>
-    db.insert('administradores', { ...admin, createdAt: agora, updatedAt: agora })
+    db.insert('administradores', { ...admin, createdAt: agora, updatedAt: agora }),
   );
 }
 
 function seedAlunos() {
   const alunos = [
-    { id: 'aluno-ana-souza', nome: 'Ana Souza', email: 'ana.souza@example.com', matricula: '2024001' },
-    { id: 'aluno-bruno-lima', nome: 'Bruno Lima', email: 'bruno.lima@example.com', matricula: '2024002' },
-    { id: 'aluno-carla-mendes', nome: 'Carla Mendes', email: 'carla.mendes@example.com', matricula: '2024003' },
+    {
+      id: 'aluno-ana-souza',
+      nome: 'Ana Souza',
+      email: 'ana.souza@example.com',
+      matricula: '2024001',
+    },
+    {
+      id: 'aluno-bruno-lima',
+      nome: 'Bruno Lima',
+      email: 'bruno.lima@example.com',
+      matricula: '2024002',
+    },
+    {
+      id: 'aluno-carla-mendes',
+      nome: 'Carla Mendes',
+      email: 'carla.mendes@example.com',
+      matricula: '2024003',
+    },
   ];
   alunos.forEach((aluno) =>
     db.insert('alunos', {
@@ -35,7 +50,7 @@ function seedAlunos() {
       role: 'aluno',
       createdAt: agora,
       updatedAt: agora,
-    })
+    }),
   );
 }
 
@@ -43,20 +58,49 @@ function seedDisciplinas() {
   const disciplinas = [
     { id: 'disciplina-matematica', nome: 'Matemática', codigo: 'MAT101', cargaHoraria: 60 },
     { id: 'disciplina-historia', nome: 'História', codigo: 'HIS101', cargaHoraria: 40 },
-    { id: 'disciplina-programacao-web', nome: 'Programação Web', codigo: 'PRW201', cargaHoraria: 80 },
+    {
+      id: 'disciplina-programacao-web',
+      nome: 'Programação Web',
+      codigo: 'PRW201',
+      cargaHoraria: 80,
+    },
   ];
-  disciplinas.forEach((disciplina) => db.insert('disciplinas', { ...disciplina, createdAt: agora, updatedAt: agora }));
+  disciplinas.forEach((disciplina) =>
+    db.insert('disciplinas', { ...disciplina, createdAt: agora, updatedAt: agora }),
+  );
 }
 
 function seedMatriculas() {
   const matriculas = [
-    { id: 'matricula-ana-matematica', alunoId: 'aluno-ana-souza', disciplinaId: 'disciplina-matematica' },
-    { id: 'matricula-ana-programacao', alunoId: 'aluno-ana-souza', disciplinaId: 'disciplina-programacao-web' },
-    { id: 'matricula-bruno-matematica', alunoId: 'aluno-bruno-lima', disciplinaId: 'disciplina-matematica' },
-    { id: 'matricula-bruno-historia', alunoId: 'aluno-bruno-lima', disciplinaId: 'disciplina-historia' },
-    { id: 'matricula-carla-programacao', alunoId: 'aluno-carla-mendes', disciplinaId: 'disciplina-programacao-web' },
+    {
+      id: 'matricula-ana-matematica',
+      alunoId: 'aluno-ana-souza',
+      disciplinaId: 'disciplina-matematica',
+    },
+    {
+      id: 'matricula-ana-programacao',
+      alunoId: 'aluno-ana-souza',
+      disciplinaId: 'disciplina-programacao-web',
+    },
+    {
+      id: 'matricula-bruno-matematica',
+      alunoId: 'aluno-bruno-lima',
+      disciplinaId: 'disciplina-matematica',
+    },
+    {
+      id: 'matricula-bruno-historia',
+      alunoId: 'aluno-bruno-lima',
+      disciplinaId: 'disciplina-historia',
+    },
+    {
+      id: 'matricula-carla-programacao',
+      alunoId: 'aluno-carla-mendes',
+      disciplinaId: 'disciplina-programacao-web',
+    },
   ];
-  matriculas.forEach((matricula) => db.insert('matriculas', { ...matricula, dataMatricula: agora }));
+  matriculas.forEach((matricula) =>
+    db.insert('matriculas', { ...matricula, dataMatricula: agora }),
+  );
 }
 
 function seedNotas() {
@@ -139,7 +183,7 @@ function seedTrabalhos() {
     },
   ];
   trabalhos.forEach((trabalho) =>
-    db.insert('trabalhos', { ...trabalho, dataEntrega: agora, createdAt: agora, updatedAt: agora })
+    db.insert('trabalhos', { ...trabalho, dataEntrega: agora, createdAt: agora, updatedAt: agora }),
   );
 }
 
