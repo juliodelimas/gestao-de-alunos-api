@@ -1,6 +1,8 @@
 import request from 'supertest'; // O request é a representação do Supertest
 import app from '../src/app.js';
 import { expect } from 'chai';
+import Sinon from 'sinon';
+import db from '../src/database/db.js';
 
 describe('Testes de Login:', () => {
     it('CT01: Deve retornar 200 quando o usuário e senha forem corretos', async () => {
@@ -65,4 +67,24 @@ describe('Testes de Login:', () => {
     expect(loginResposta.status).to.equal(401);
     expect(loginResposta.body.error).to.equal('E-mail ou senha inválidos.');
     });
+
+        it('CT06: Deve retornar 500 quando acontecer algum problema de conexão com o banco de dados', async () => {
+            const dbMock = Sinon.stub(db, 'all').throws(new Error('Erro catastrófico!'));
+
+            try {
+                const loginResposta = await request(app)
+                    .post('/api/auth/login')
+                    .set('Content-Type', 'application/json')
+                    .send({
+                        email: 'admin@escola.com',
+                        senha: 'admin123'
+                    });
+
+                expect(loginResposta.status).to.equal(500);
+                expect(loginResposta.body.error).to.equal('Erro interno do servidor.');
+            } finally {
+                dbMock.restore();
+            }
+    });
+
 });
