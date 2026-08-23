@@ -1,6 +1,6 @@
 # Gestão de Alunos API
 
-API REST para gestão de alunos, disciplinas, notas e trabalhos, com banco de dados em memória.
+API REST para gestão de alunos, disciplinas, notas e trabalhos, com persistência em MongoDB.
 
 ## Descrição
 
@@ -20,18 +20,21 @@ Essas duas perspectivas são refletidas diretamente na organização das rotas:
   administrador.**
 
 Toda a API é protegida por autenticação **JWT**, exceto o endpoint de login. Não existe endpoint
-de cadastro de administrador — ele já vem pré-cadastrado no banco em memória (veja
+de cadastro de administrador — ele já vem pré-cadastrado no banco (veja
 [Autenticação](#autenticação) abaixo).
 
-O banco de dados é **em memória** (um objeto JavaScript mantido no processo Node) — os dados são
-reiniciados sempre que o servidor é reiniciado, voltando ao conjunto de dados fake descrito abaixo.
+O banco de dados é **MongoDB**, acessado via **Mongoose**. Os dados persistem entre reinícios do
+servidor; a carga inicial de dados fake (seed) só é executada uma vez, na primeira vez em que o
+banco está vazio (veja [Dados fake pré-carregados](#dados-fake-pré-carregados) abaixo).
 
 ## Stack utilizada
 
 - **Node.js** com módulos ES (`"type": "module"` no `package.json`)
 - **Express** — framework web e roteamento
+- **MongoDB** com **Mongoose** — persistência dos dados (alunos, disciplinas, matrículas, notas e
+  trabalhos)
 - **jsonwebtoken** — emissão e verificação dos tokens JWT usados na autenticação
-- **bcryptjs** — hash das senhas armazenadas no banco em memória
+- **bcryptjs** — hash das senhas armazenadas no banco
 - **js-yaml** — carregamento do arquivo de documentação OpenAPI em YAML
 - **swagger-ui-express** — renderização do Swagger UI a partir do YAML
 - **cors** — liberação de CORS para consumo por outros clientes/origens
@@ -39,9 +42,7 @@ reiniciados sempre que o servidor é reiniciado, voltando ao conjunto de dados f
 - **nodemon** (dependência de desenvolvimento) — reinício automático do servidor durante o
   desenvolvimento
 
-Sem banco de dados externo nem ORM — persistência é 100% em memória, propositalmente simples para
-fins de estudo/demonstração. A autenticação, porém, é real: senhas com hash (bcrypt) e sessões
-via JWT assinado.
+A autenticação é real: senhas com hash (bcrypt) e sessões via JWT assinado.
 
 ## Arquitetura do código
 
@@ -58,10 +59,10 @@ src/
     admin/                # rotas do administrador -> /api/admin (protegidas, papel admin)
   controllers/            # lida com req/res, delega para os services
   services/               # regras de negócio e validações
-  models/                 # formato/criação das entidades (factories), incluindo hash de senha
+  models/                 # schemas Mongoose das entidades, incluindo hash de senha (pre-save)
   database/
-    db.js                 # banco de dados em memória (coleções + operações CRUD genéricas)
-    seed.js                # dados fake carregados na inicialização (inclui o admin)
+    db.js                 # conexão com o MongoDB via Mongoose
+    seed.js                # dados fake carregados na inicialização, se o banco estiver vazio (inclui o admin)
   middlewares/
     authenticate.js        # valida o JWT e popula req.user
     authorize.js            # restringe uma rota a um ou mais papéis (ex.: "admin")
@@ -77,7 +78,10 @@ docs/
 
 ## Instalação e execução
 
-Pré-requisito: Node.js 18+ (usa `crypto.randomUUID`, disponível nativamente).
+Pré-requisitos:
+
+- Node.js 18+ (usa `crypto.randomUUID`, disponível nativamente).
+- Uma instância do **MongoDB** acessível (local ou remota).
 
 ```bash
 # instalar dependências
@@ -92,6 +96,20 @@ npm run dev
 
 O servidor sobe por padrão em `http://localhost:3000` (pode ser alterado com a variável de
 ambiente `PORT`).
+
+### Configuração do MongoDB
+
+Por padrão, a API se conecta a um MongoDB local em
+`mongodb://127.0.0.1:27017/gestao-de-alunos`. Para usar outra instância (ex.: MongoDB Atlas ou um
+container), defina a variável de ambiente `MONGODB_URI` antes de subir o servidor:
+
+```bash
+MONGODB_URI="mongodb://usuario:senha@host:27017/nome-do-banco" npm start
+```
+
+Na primeira execução com o banco vazio, a API popula automaticamente as coleções com o conjunto de
+dados fake descrito em [Dados fake pré-carregados](#dados-fake-pré-carregados). Em execuções
+seguintes, os dados já existentes são preservados.
 
 ## Documentação da API (Swagger)
 
@@ -138,15 +156,16 @@ rotas protegidas diretamente pela interface.
 - **`/api/alunos/{alunoId}/*`** — exige token válido (admin ou aluno). Um aluno só acessa quando
   `alunoId` é o seu próprio id; um administrador pode acessar os dados de qualquer aluno.
 - Não existe endpoint para cadastrar administradores: o único admin do sistema já vem
-  pré-cadastrado no banco em memória (credenciais na seção de dados fake abaixo).
+  pré-cadastrado no banco pelo seed (credenciais na seção de dados fake abaixo).
 - Quando um administrador cadastra um aluno (`POST /api/admin/alunos`), ele também define a senha
   inicial de acesso desse aluno (campo `senha`, obrigatório no cadastro).
 - Senhas nunca são retornadas pela API — são armazenadas apenas como hash (bcrypt).
 
 ## Dados fake pré-carregados
 
-Ao iniciar, o banco em memória já vem populado com os dados abaixo (ids legíveis, para facilitar
-testes manuais via Swagger UI ou curl). Todas as senhas abaixo são apenas para demonstração.
+Na primeira vez que a API sobe com o banco vazio, o seed popula o MongoDB com os dados abaixo (ids
+legíveis, para facilitar testes manuais via Swagger UI ou curl). Todas as senhas abaixo são apenas
+para demonstração.
 
 ### Administrador (`/api/auth/login`)
 

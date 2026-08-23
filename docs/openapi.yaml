@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Gestão de Alunos API
   description: >
-    API REST para gestão de alunos, disciplinas, notas e trabalhos, com banco de dados em memória.
+    API REST para gestão de alunos, disciplinas, notas e trabalhos, com persistência em MongoDB.
 
     A API é organizada em dois grupos de rotas: **Admin**, usado por um administrador para
     cadastrar alunos, disciplinas, matrículas e notas; e **Aluno**, usado pelo próprio aluno
@@ -12,7 +12,7 @@ info:
     Toda a API (exceto o login) é protegida por autenticação via **JWT**. Faça login em
     `POST /auth/login` com um e-mail e senha cadastrados, copie o `token` retornado e clique em
     **Authorize** no topo desta página, informando `Bearer <token>`. O administrador já vem
-    pré-cadastrado no banco em memória (veja o README do projeto para as credenciais de
+    pré-cadastrado no banco pelo seed (veja o README do projeto para as credenciais de
     demonstração) — não existe endpoint de cadastro de administrador.
   version: 1.0.0
 servers:

@@ -1,78 +1,73 @@
-import db from '../database/db.js';
-import { createDisciplina } from '../models/disciplina.model.js';
-import { createMatricula } from '../models/matricula.model.js';
+import Disciplina from '../models/disciplina.model.js';
+import Matricula from '../models/matricula.model.js';
+import Aluno from '../models/aluno.model.js';
 import ApiError from '../utils/ApiError.js';
 import { buscarPorId as buscarAlunoPorId } from './alunos.service.js';
 
-export function listar() {
-  return db.all('disciplinas');
+export async function listar() {
+  return Disciplina.find();
 }
 
-export function buscarPorId(id) {
-  const disciplina = db.findById('disciplinas', id);
+export async function buscarPorId(id) {
+  const disciplina = await Disciplina.findById(id);
   if (!disciplina) throw new ApiError(404, `Disciplina com id "${id}" não encontrada.`);
   return disciplina;
 }
 
-export function criar(dados) {
+export async function criar(dados) {
   const { nome, codigo, cargaHoraria } = dados;
   if (!nome || !codigo) {
     throw new ApiError(400, 'Os campos "nome" e "codigo" são obrigatórios.');
   }
 
-  const jaExiste = db.all('disciplinas').some((d) => d.codigo === codigo);
+  const jaExiste = await Disciplina.exists({ codigo });
   if (jaExiste) {
     throw new ApiError(409, `Já existe uma disciplina com o código "${codigo}".`);
   }
 
-  const disciplina = createDisciplina({ nome, codigo, cargaHoraria });
-  db.insert('disciplinas', disciplina);
+  const disciplina = new Disciplina({ nome, codigo, cargaHoraria });
+  await disciplina.save();
   return disciplina;
 }
 
-export function atualizar(id, dados) {
-  buscarPorId(id);
+export async function atualizar(id, dados) {
+  const disciplina = await buscarPorId(id);
   const { nome, codigo, cargaHoraria } = dados;
-  return db.update('disciplinas', id, {
-    ...(nome !== undefined && { nome }),
-    ...(codigo !== undefined && { codigo }),
-    ...(cargaHoraria !== undefined && { cargaHoraria }),
-  });
+  if (nome !== undefined) disciplina.nome = nome;
+  if (codigo !== undefined) disciplina.codigo = codigo;
+  if (cargaHoraria !== undefined) disciplina.cargaHoraria = cargaHoraria;
+  await disciplina.save();
+  return disciplina;
 }
 
-export function remover(id) {
-  buscarPorId(id);
-  db.remove('disciplinas', id);
+export async function remover(id) {
+  await buscarPorId(id);
+  await Disciplina.findByIdAndDelete(id);
 }
 
-export function matricular(disciplinaId, alunoId) {
-  buscarPorId(disciplinaId);
-  buscarAlunoPorId(alunoId);
+export async function matricular(disciplinaId, alunoId) {
+  await buscarPorId(disciplinaId);
+  await buscarAlunoPorId(alunoId);
 
-  const jaMatriculado = db
-    .all('matriculas')
-    .some((m) => m.alunoId === alunoId && m.disciplinaId === disciplinaId);
+  const jaMatriculado = await Matricula.exists({ alunoId, disciplinaId });
   if (jaMatriculado) {
     throw new ApiError(409, 'Aluno já está matriculado nesta disciplina.');
   }
 
-  const matricula = createMatricula({ alunoId, disciplinaId });
-  db.insert('matriculas', matricula);
+  const matricula = new Matricula({ alunoId, disciplinaId });
+  await matricula.save();
   return matricula;
 }
 
-export function listarAlunos(disciplinaId) {
-  buscarPorId(disciplinaId);
-  const alunos = db.all('alunos');
-  return db
-    .all('matriculas')
-    .filter((m) => m.disciplinaId === disciplinaId)
-    .map((m) => alunos.find((a) => a.id === m.alunoId))
-    .filter(Boolean);
+export async function listarAlunos(disciplinaId) {
+  await buscarPorId(disciplinaId);
+  const matriculas = await Matricula.find({ disciplinaId });
+  const alunoIds = matriculas.map((m) => m.alunoId);
+  return Aluno.find({ _id: { $in: alunoIds } });
 }
 
-export function estaMatriculado(alunoId, disciplinaId) {
-  return db.all('matriculas').some((m) => m.alunoId === alunoId && m.disciplinaId === disciplinaId);
+export async function estaMatriculado(alunoId, disciplinaId) {
+  return Boolean(await Matricula.exists({ alunoId, disciplinaId }));
 }
 
 export default { listar, buscarPorId, criar, atualizar, remover, matricular, listarAlunos, estaMatriculado };

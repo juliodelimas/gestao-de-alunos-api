@@ -1,68 +1,55 @@
-import bcrypt from 'bcryptjs';
-import db from './db.js';
-
-const agora = new Date().toISOString();
+import Administrador from '../models/admin.model.js';
+import Aluno from '../models/aluno.model.js';
+import Disciplina from '../models/disciplina.model.js';
+import Matricula from '../models/matricula.model.js';
+import Nota from '../models/nota.model.js';
+import Trabalho from '../models/trabalho.model.js';
 
 // Senha padrão de todos os alunos seedados, apenas para fins de teste/demonstração.
 const SENHA_PADRAO_ALUNO = '123456';
 const SENHA_PADRAO_ADMIN = 'admin123';
 
-function seedAdministradores() {
-  const administradores = [
+async function seedAdministradores() {
+  await Administrador.create([
     {
-      id: 'admin-principal',
+      _id: 'admin-principal',
       nome: 'Administrador do Sistema',
       email: 'admin@escola.com',
-      senha: bcrypt.hashSync(SENHA_PADRAO_ADMIN, 10),
-      role: 'admin',
+      senha: SENHA_PADRAO_ADMIN,
     },
-  ];
-  administradores.forEach((admin) =>
-    db.insert('administradores', { ...admin, createdAt: agora, updatedAt: agora })
-  );
+  ]);
 }
 
-function seedAlunos() {
-  const alunos = [
-    { id: 'aluno-ana-souza', nome: 'Ana Souza', email: 'ana.souza@example.com', matricula: '2024001' },
-    { id: 'aluno-bruno-lima', nome: 'Bruno Lima', email: 'bruno.lima@example.com', matricula: '2024002' },
-    { id: 'aluno-carla-mendes', nome: 'Carla Mendes', email: 'carla.mendes@example.com', matricula: '2024003' },
-  ];
-  alunos.forEach((aluno) =>
-    db.insert('alunos', {
-      ...aluno,
-      senha: bcrypt.hashSync(SENHA_PADRAO_ALUNO, 10),
-      role: 'aluno',
-      createdAt: agora,
-      updatedAt: agora,
-    })
-  );
+async function seedAlunos() {
+  await Aluno.create([
+    { _id: 'aluno-ana-souza', nome: 'Ana Souza', email: 'ana.souza@example.com', matricula: '2024001', senha: SENHA_PADRAO_ALUNO },
+    { _id: 'aluno-bruno-lima', nome: 'Bruno Lima', email: 'bruno.lima@example.com', matricula: '2024002', senha: SENHA_PADRAO_ALUNO },
+    { _id: 'aluno-carla-mendes', nome: 'Carla Mendes', email: 'carla.mendes@example.com', matricula: '2024003', senha: SENHA_PADRAO_ALUNO },
+  ]);
 }
 
-function seedDisciplinas() {
-  const disciplinas = [
-    { id: 'disciplina-matematica', nome: 'Matemática', codigo: 'MAT101', cargaHoraria: 60 },
-    { id: 'disciplina-historia', nome: 'História', codigo: 'HIS101', cargaHoraria: 40 },
-    { id: 'disciplina-programacao-web', nome: 'Programação Web', codigo: 'PRW201', cargaHoraria: 80 },
-  ];
-  disciplinas.forEach((disciplina) => db.insert('disciplinas', { ...disciplina, createdAt: agora, updatedAt: agora }));
+async function seedDisciplinas() {
+  await Disciplina.create([
+    { _id: 'disciplina-matematica', nome: 'Matemática', codigo: 'MAT101', cargaHoraria: 60 },
+    { _id: 'disciplina-historia', nome: 'História', codigo: 'HIS101', cargaHoraria: 40 },
+    { _id: 'disciplina-programacao-web', nome: 'Programação Web', codigo: 'PRW201', cargaHoraria: 80 },
+  ]);
 }
 
-function seedMatriculas() {
-  const matriculas = [
-    { id: 'matricula-ana-matematica', alunoId: 'aluno-ana-souza', disciplinaId: 'disciplina-matematica' },
-    { id: 'matricula-ana-programacao', alunoId: 'aluno-ana-souza', disciplinaId: 'disciplina-programacao-web' },
-    { id: 'matricula-bruno-matematica', alunoId: 'aluno-bruno-lima', disciplinaId: 'disciplina-matematica' },
-    { id: 'matricula-bruno-historia', alunoId: 'aluno-bruno-lima', disciplinaId: 'disciplina-historia' },
-    { id: 'matricula-carla-programacao', alunoId: 'aluno-carla-mendes', disciplinaId: 'disciplina-programacao-web' },
-  ];
-  matriculas.forEach((matricula) => db.insert('matriculas', { ...matricula, dataMatricula: agora }));
+async function seedMatriculas() {
+  await Matricula.create([
+    { _id: 'matricula-ana-matematica', alunoId: 'aluno-ana-souza', disciplinaId: 'disciplina-matematica' },
+    { _id: 'matricula-ana-programacao', alunoId: 'aluno-ana-souza', disciplinaId: 'disciplina-programacao-web' },
+    { _id: 'matricula-bruno-matematica', alunoId: 'aluno-bruno-lima', disciplinaId: 'disciplina-matematica' },
+    { _id: 'matricula-bruno-historia', alunoId: 'aluno-bruno-lima', disciplinaId: 'disciplina-historia' },
+    { _id: 'matricula-carla-programacao', alunoId: 'aluno-carla-mendes', disciplinaId: 'disciplina-programacao-web' },
+  ]);
 }
 
-function seedNotas() {
-  const notas = [
+async function seedNotas() {
+  await Nota.create([
     {
-      id: 'nota-ana-matematica-prova1',
+      _id: 'nota-ana-matematica-prova1',
       alunoId: 'aluno-ana-souza',
       disciplinaId: 'disciplina-matematica',
       valor: 8.5,
@@ -70,7 +57,7 @@ function seedNotas() {
       descricao: 'Prova 1 - Álgebra',
     },
     {
-      id: 'nota-ana-programacao-prova1',
+      _id: 'nota-ana-programacao-prova1',
       alunoId: 'aluno-ana-souza',
       disciplinaId: 'disciplina-programacao-web',
       valor: 9.2,
@@ -78,7 +65,7 @@ function seedNotas() {
       descricao: 'Prova 1 - HTML e CSS',
     },
     {
-      id: 'nota-bruno-matematica-prova1',
+      _id: 'nota-bruno-matematica-prova1',
       alunoId: 'aluno-bruno-lima',
       disciplinaId: 'disciplina-matematica',
       valor: 6.0,
@@ -86,7 +73,7 @@ function seedNotas() {
       descricao: 'Prova 1 - Álgebra',
     },
     {
-      id: 'nota-bruno-historia-participacao1',
+      _id: 'nota-bruno-historia-participacao1',
       alunoId: 'aluno-bruno-lima',
       disciplinaId: 'disciplina-historia',
       valor: 7.5,
@@ -94,31 +81,28 @@ function seedNotas() {
       descricao: 'Participação em sala - 1º bimestre',
     },
     {
-      id: 'nota-carla-programacao-prova1',
+      _id: 'nota-carla-programacao-prova1',
       alunoId: 'aluno-carla-mendes',
       disciplinaId: 'disciplina-programacao-web',
       valor: 10,
       tipo: 'prova',
       descricao: 'Prova 1 - HTML e CSS',
     },
-  ];
-  notas.forEach((nota) => db.insert('notas', { ...nota, createdAt: agora, updatedAt: agora }));
+  ]);
 }
 
-function seedTrabalhos() {
-  const trabalhos = [
+async function seedTrabalhos() {
+  await Trabalho.create([
     {
-      id: 'trabalho-ana-lista-exercicios-1',
+      _id: 'trabalho-ana-lista-exercicios-1',
       alunoId: 'aluno-ana-souza',
       disciplinaId: 'disciplina-matematica',
       titulo: 'Lista de Exercícios 1',
       descricao: 'Resolução dos exercícios de 1 a 20 do capítulo 2.',
       status: 'entregue',
-      nota: null,
-      feedback: null,
     },
     {
-      id: 'trabalho-bruno-linha-do-tempo',
+      _id: 'trabalho-bruno-linha-do-tempo',
       alunoId: 'aluno-bruno-lima',
       disciplinaId: 'disciplina-historia',
       titulo: 'Linha do Tempo - Revolução Industrial',
@@ -128,31 +112,27 @@ function seedTrabalhos() {
       feedback: 'Bom trabalho, faltou aprofundar o impacto social.',
     },
     {
-      id: 'trabalho-carla-landing-page',
+      _id: 'trabalho-carla-landing-page',
       alunoId: 'aluno-carla-mendes',
       disciplinaId: 'disciplina-programacao-web',
       titulo: 'Landing Page Responsiva',
       descricao: 'Implementação de uma landing page usando HTML e CSS.',
       status: 'entregue',
-      nota: null,
-      feedback: null,
     },
-  ];
-  trabalhos.forEach((trabalho) =>
-    db.insert('trabalhos', { ...trabalho, dataEntrega: agora, createdAt: agora, updatedAt: agora })
-  );
+  ]);
 }
 
-export function seed() {
-  if (db.all('administradores').length > 0) return;
-  seedAdministradores();
-  seedAlunos();
-  seedDisciplinas();
-  seedMatriculas();
-  seedNotas();
-  seedTrabalhos();
+export async function seed() {
+  const jaSeedado = await Administrador.exists({});
+  if (jaSeedado) return;
+  await seedAdministradores();
+  await seedAlunos();
+  await seedDisciplinas();
+  await seedMatriculas();
+  await seedNotas();
+  await seedTrabalhos();
 }
 
-seed();
+await seed();
 
 export default { seed };
