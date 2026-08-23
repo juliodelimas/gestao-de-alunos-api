@@ -1,14 +1,22 @@
 import { Router } from 'express';
-import * as disciplinasController from '../../controllers/disciplinas.controller.js';
+import {
+  listar,
+  criar,
+  buscarPorId,
+  atualizar,
+  remover,
+  matricular,
+  listarAlunos,
+} from '../../controllers/disciplinas.controller.js';
 
 const router = Router();
 
-router.get('/', disciplinasController.listar);
-router.post('/', disciplinasController.criar);
-router.get('/:id', disciplinasController.buscarPorId);
-router.put('/:id', disciplinasController.atualizar);
-router.delete('/:id', disciplinasController.remover);
-router.post('/:id/matriculas', disciplinasController.matricular);
-router.get('/:id/alunos', disciplinasController.listarAlunos);
+router.get('/', listar);
+router.post('/', criar);
+router.get('/:id', buscarPorId);
+router.put('/:id', atualizar);
+router.delete('/:id', remover);
+router.post('/:id/matriculas', matricular);
+router.get('/:id/alunos', listarAlunos);
 
 export default router;

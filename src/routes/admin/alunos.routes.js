@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import * as alunosController from '../../controllers/alunos.controller.js';
+import { listar, criar, buscarPorId, atualizar, remover } from '../../controllers/alunos.controller.js';
 
 const router = Router();
 
-router.get('/', alunosController.listar);
-router.post('/', alunosController.criar);
-router.get('/:id', alunosController.buscarPorId);
-router.put('/:id', alunosController.atualizar);
-router.delete('/:id', alunosController.remover);
+router.get('/', listar);
+router.post('/', criar);
+router.get('/:id', buscarPorId);
+router.put('/:id', atualizar);
+router.delete('/:id', remover);
 
 export default router;

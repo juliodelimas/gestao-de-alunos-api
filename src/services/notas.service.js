@@ -1,8 +1,8 @@
 import db from '../database/db.js';
 import { createNota } from '../models/nota.model.js';
 import ApiError from '../utils/ApiError.js';
-import * as alunosService from './alunos.service.js';
-import * as disciplinasService from './disciplinas.service.js';
+import { buscarPorId as buscarAlunoPorId } from './alunos.service.js';
+import { buscarPorId as buscarDisciplinaPorId, estaMatriculado } from './disciplinas.service.js';
 
 export const TIPOS_VALIDOS = ['prova', 'trabalho', 'participacao'];
 
@@ -31,10 +31,10 @@ export function criar(dados) {
     throw new ApiError(400, `O campo "tipo" deve ser um dos seguintes: ${TIPOS_VALIDOS.join(', ')}.`);
   }
 
-  alunosService.buscarPorId(alunoId);
-  disciplinasService.buscarPorId(disciplinaId);
+  buscarAlunoPorId(alunoId);
+  buscarDisciplinaPorId(disciplinaId);
 
-  if (!disciplinasService.estaMatriculado(alunoId, disciplinaId)) {
+  if (!estaMatriculado(alunoId, disciplinaId)) {
     throw new ApiError(409, 'O aluno não está matriculado nesta disciplina.');
   }
 

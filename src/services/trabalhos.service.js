@@ -1,8 +1,8 @@
 import db from '../database/db.js';
 import { createTrabalho } from '../models/trabalho.model.js';
 import ApiError from '../utils/ApiError.js';
-import * as alunosService from './alunos.service.js';
-import * as disciplinasService from './disciplinas.service.js';
+import { buscarPorId as buscarAlunoPorId } from './alunos.service.js';
+import { buscarPorId as buscarDisciplinaPorId, estaMatriculado } from './disciplinas.service.js';
 
 export const STATUS_VALIDOS = ['entregue', 'em_correcao', 'corrigido'];
 
@@ -24,16 +24,16 @@ export function buscarPorId(id) {
 }
 
 export function registrar(alunoId, dados) {
-  alunosService.buscarPorId(alunoId);
+  buscarAlunoPorId(alunoId);
 
   const { disciplinaId, titulo, descricao } = dados;
   if (!disciplinaId || !titulo) {
     throw new ApiError(400, 'Os campos "disciplinaId" e "titulo" são obrigatórios.');
   }
 
-  disciplinasService.buscarPorId(disciplinaId);
+  buscarDisciplinaPorId(disciplinaId);
 
-  if (!disciplinasService.estaMatriculado(alunoId, disciplinaId)) {
+  if (!estaMatriculado(alunoId, disciplinaId)) {
     throw new ApiError(409, 'O aluno não está matriculado nesta disciplina.');
   }
 

@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import * as notasController from '../../controllers/notas.controller.js';
+import { listar, criar, buscarPorId, atualizar, remover } from '../../controllers/notas.controller.js';
 
 const router = Router();
 
-router.get('/', notasController.listar);
-router.post('/', notasController.criar);
-router.get('/:id', notasController.buscarPorId);
-router.put('/:id', notasController.atualizar);
-router.delete('/:id', notasController.remover);
+router.get('/', listar);
+router.post('/', criar);
+router.get('/:id', buscarPorId);
+router.put('/:id', atualizar);
+router.delete('/:id', remover);
 
 export default router;

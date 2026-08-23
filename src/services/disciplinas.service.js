@@ -2,7 +2,7 @@ import db from '../database/db.js';
 import { createDisciplina } from '../models/disciplina.model.js';
 import { createMatricula } from '../models/matricula.model.js';
 import ApiError from '../utils/ApiError.js';
-import * as alunosService from './alunos.service.js';
+import { buscarPorId as buscarAlunoPorId } from './alunos.service.js';
 
 export function listar() {
   return db.all('disciplinas');
@@ -47,7 +47,7 @@ export function remover(id) {
 
 export function matricular(disciplinaId, alunoId) {
   buscarPorId(disciplinaId);
-  alunosService.buscarPorId(alunoId);
+  buscarAlunoPorId(alunoId);
 
   const jaMatriculado = db
     .all('matriculas')

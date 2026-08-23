@@ -1,25 +1,31 @@
 import asyncHandler from '../utils/asyncHandler.js';
-import * as notasService from '../services/notas.service.js';
+import {
+  listar as listarService,
+  buscarPorId as buscarPorIdService,
+  criar as criarService,
+  atualizar as atualizarService,
+  remover as removerService,
+} from '../services/notas.service.js';
 
 export const listar = asyncHandler(async (req, res) => {
   const { alunoId, disciplinaId } = req.query;
-  res.json(notasService.listar({ alunoId, disciplinaId }));
+  res.json(listarService({ alunoId, disciplinaId }));
 });
 
 export const buscarPorId = asyncHandler(async (req, res) => {
-  res.json(notasService.buscarPorId(req.params.id));
+  res.json(buscarPorIdService(req.params.id));
 });
 
 export const criar = asyncHandler(async (req, res) => {
-  const nota = notasService.criar(req.body);
+  const nota = criarService(req.body);
   res.status(201).json(nota);
 });
 
 export const atualizar = asyncHandler(async (req, res) => {
-  res.json(notasService.atualizar(req.params.id, req.body));
+  res.json(atualizarService(req.params.id, req.body));
 });
 
 export const remover = asyncHandler(async (req, res) => {
-  notasService.remover(req.params.id);
+  removerService(req.params.id);
   res.status(204).send();
 });
