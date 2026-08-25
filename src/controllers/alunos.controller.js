@@ -1,5 +1,5 @@
 import asyncHandler from '../utils/asyncHandler.js';
-import * as alunosService from '../services/alunos.service.js';
+import alunosService from '../services/alunos.service.js';
 import { sanitizeAluno } from '../models/aluno.model.js';
 
 export const listar = asyncHandler(async (req, res) => {
