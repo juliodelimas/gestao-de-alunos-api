@@ -1,26 +1,29 @@
-import request from 'supertest';
 import { expect } from 'chai';
+import { loginUser } from '../helpers/auth.js';
+import { createStudent } from '../helpers/alunos.js';
+import { alunosFixture } from '../fixtures/alunos.js';
 
 describe('Alunos', () => {
-  it('should sign up a new student', async () => {
-    const loginResponse = await request('http://localhost:3000')
-      .post('/api/auth/login')
-      .set('Content-Type', 'application/json')
-      .send({ 'email': 'admin@escola.com', 'senha': 'admin123' })
 
-    const alunoResponse = await request('http://localhost:3000')
-      .post('/api/admin/alunos')
-      .set('Content-Type', 'application/json')
-      .set('Authorization', `Bearer ${loginResponse.body.token}`)
-      .send({
-        'nome': 'Ana Souza',
-        'email': `ana.souza${Date.now()}@example.com`,
-        'matricula': `${Date.now()}`,
-        'senha': '123456'
-      })
+  let loginResponse;
+  beforeEach(async () => {
+    loginResponse = await loginUser('http://localhost:3000', 'admin@escola.com', 'admin123');
+  });
+
+  it('should sign up a new student', async () => {
+    const aluno = alunosFixture.aleatorio;
+    const alunoResponse = await createStudent('http://localhost:3000', aluno, loginResponse);
 
     expect(alunoResponse.status).to.equal(201);
     expect(alunoResponse.body).to.have.property('nome', 'Ana Souza');
     expect(alunoResponse.body).to.have.property('role', 'aluno');
+  })
+
+  it('should return 409 for duplicate student', async () => {
+    const aluno = alunosFixture.alunoFixo
+    const alunoResponse = await createStudent('http://localhost:3000', aluno, loginResponse);
+
+    expect(alunoResponse.status).to.equal(409);
+    expect(alunoResponse.body).to.have.property('error', 'Já existe um aluno cadastrado com essa matrícula ou e-mail.');
   })
 });
