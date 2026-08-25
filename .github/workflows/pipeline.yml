@@ -27,4 +27,4 @@ jobs:
         run: sleep 5
 
       - name: Executando os testes de API
-        run: npm run tests
+        run: npm run tests:internal
