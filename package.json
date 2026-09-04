@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "npx mocha",
+    "test": "npx mocha \"test/**/*.test.js\"",
     "stryker": "npx stryker run"
   },
   "author": "",
