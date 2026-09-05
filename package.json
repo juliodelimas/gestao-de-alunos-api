@@ -12,9 +12,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^10.6.0",
     "bcryptjs": "^2.4.3",
     "chai": "^6.2.2",
     "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
     "esm": "^3.2.25",
     "express": "^4.19.2",
     "js-yaml": "^4.1.0",
