@@ -7,17 +7,19 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "mocha test/**/*.test.js --exit"
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
     "esm": "^3.2.25",
     "express": "^4.19.2",
     "js-yaml": "^4.1.0",
     "jsonwebtoken": "^9.0.2",
+    "mongodb": "^7.6.0",
     "mongoose": "^9.9.3",
     "morgan": "^1.10.0",
     "swagger-ui-express": "^5.0.1"

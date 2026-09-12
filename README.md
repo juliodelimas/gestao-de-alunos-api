@@ -111,6 +111,43 @@ Na primeira execução com o banco vazio, a API popula automaticamente as coleç
 dados fake descrito em [Dados fake pré-carregados](#dados-fake-pré-carregados). Em execuções
 seguintes, os dados já existentes são preservados.
 
+## Testes
+
+A suíte de testes automatizados cobre autenticação e as operações principais de gestão de alunos
+usando **Mocha**, **Chai** e **Supertest**.
+
+**Pré-requisito:** o MongoDB precisa estar acessível (mesma configuração usada para rodar a API —
+veja [Configuração do MongoDB](#configuração-do-mongodb)).
+
+```bash
+# instalar dependências de desenvolvimento (caso ainda não tenha feito)
+npm install
+
+# rodar todos os testes
+npm test
+```
+
+Os arquivos de teste estão em `test/` e seguem o padrão `*.test.js`:
+
+```
+test/
+  auth.test.js             # testes de login e autenticação JWT
+  gestao-alunos.test.js    # testes de CRUD de alunos, disciplinas, matrículas, notas e trabalhos
+  fixtures/
+    data.json              # dados reutilizados nos testes
+  helpers/
+    adminHelper.js         # funções auxiliares para ações de administrador
+    alunoHelper.js         # funções auxiliares para ações de aluno
+  hooks.js                 # hooks Mocha (setup/teardown de conexão com o banco)
+```
+
+Para usar um banco de testes diferente do banco de desenvolvimento, defina `MONGODB_URI` antes de
+rodar:
+
+```bash
+MONGODB_URI="mongodb://127.0.0.1:27017/gestao-de-alunos-test" npm test
+```
+
 ## Documentação da API (Swagger)
 
 A documentação completa de todas as rotas, parâmetros, corpos de requisição e respostas está

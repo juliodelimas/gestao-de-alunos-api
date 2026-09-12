@@ -1,0 +1,36 @@
+{
+  "admin": {
+    "email": "admin@escola.com",
+    "senha": "admin123"
+  },
+  "cenarios": [
+    {
+      "descricao": "Aluno de Matemática entrega lista de exercícios",
+      "aluno": {
+        "nome": "Teste Alice",
+        "email": "teste.alice@escola.com",
+        "matricula": "TEST-ALICE-001",
+        "senha": "senhaAlice@1"
+      },
+      "disciplinaId": "disciplina-matematica",
+      "trabalho": {
+        "titulo": "Lista de Exercícios – Cálculo",
+        "descricao": "Resolução dos exercícios do capítulo 5"
+      }
+    },
+    {
+      "descricao": "Aluno de Programação Web entrega projeto de portfólio",
+      "aluno": {
+        "nome": "Teste Bob",
+        "email": "teste.bob@escola.com",
+        "matricula": "TEST-BOB-002",
+        "senha": "senhaBob@2"
+      },
+      "disciplinaId": "disciplina-programacao-web",
+      "trabalho": {
+        "titulo": "Projeto Portfólio Responsivo",
+        "descricao": "Implementação de portfólio com HTML, CSS e JavaScript"
+      }
+    }
+  ]
+}
