@@ -1,0 +1,32 @@
+[
+    {
+        "testTitle": "Validar que ao cadastrar o aluno Fabio ele pode ser matriculado em uma nova disciplina",
+        "dadosAluno":{
+            "nome": "Fabio Martins de Souza",
+            "email": "fmsouza@example.com",
+            "matricula": "F19800518",
+            "senha": "123456"
+        },
+        "dadosDisciplina":{
+            "nome": "Quimica", 
+            "codigo": "QUIM01",
+            "cargaHoraria": 30
+        },
+        "statusCodeEsperado": 201
+    },
+    {
+        "testTitle": "Validar que ao cadastrar a aluna Marcia ele pode ser matriculado em uma nova disciplina",
+        "dadosAluno":{
+            "nome": "Marcia Azevedo",
+            "email": "marcia.azevedo@example.com",
+            "matricula": "M19800518",
+            "senha": "123456"
+        },
+        "dadosDisciplina":{
+            "nome": "Física", 
+            "codigo": "FIS01",
+            "cargaHoraria": 30
+        },
+        "statusCodeEsperado": 201
+    }
+]

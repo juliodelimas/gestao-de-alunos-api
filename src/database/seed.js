@@ -21,6 +21,7 @@ async function seedAdministradores() {
 }
 
 async function seedAlunos() {
+  await Aluno.deleteMany({});
   await Aluno.create([
     { _id: 'aluno-ana-souza', nome: 'Ana Souza', email: 'ana.souza@example.com', matricula: '2024001', senha: SENHA_PADRAO_ALUNO },
     { _id: 'aluno-bruno-lima', nome: 'Bruno Lima', email: 'bruno.lima@example.com', matricula: '2024002', senha: SENHA_PADRAO_ALUNO },
