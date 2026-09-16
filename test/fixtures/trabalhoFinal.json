@@ -1,0 +1,38 @@
+[
+  {
+    "testTitle": "aluno cadastrado registra uma entrega de trabalho",
+    "aluno": {
+      "nome": "Aluno Trabalho Final",
+      "emailPrefix": "aluno.trabalho.final",
+      "matriculaPrefix": "TF",
+      "senha": "123456"
+    },
+    "disciplinaId": "disciplina-matematica",
+    "trabalho": {
+      "titulo": "Trabalho Final de Matemática",
+      "descricao": "Entrega do trabalho final para avaliação."
+    },
+    "statusLoginAdmin": 200,
+    "statusCadastroAluno": 201,
+    "statusLoginAluno": 200,
+    "statusEntrega": 201
+  },
+  {
+    "testTitle": "novo aluno registra uma segunda entrega de trabalho",
+    "aluno": {
+      "nome": "Aluno Projeto Final",
+      "emailPrefix": "aluno.projeto.final",
+      "matriculaPrefix": "PF",
+      "senha": "654321"
+    },
+    "disciplinaId": "disciplina-matematica",
+    "trabalho": {
+      "titulo": "Projeto Final de Matemática",
+      "descricao": "Projeto final entregue pelo aluno."
+    },
+    "statusLoginAdmin": 200,
+    "statusCadastroAluno": 201,
+    "statusLoginAluno": 200,
+    "statusEntrega": 201
+  }
+]

@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860" role="img" aria-labelledby="title desc">
+  <title id="title">Arquitetura da aplicacao voltada para testes</title>
+  <desc id="desc">Fluxo entre testes internos e externos, API Express, camadas de negocio e banco em memoria.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#506070"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#1b2a3a" flood-opacity="0.14"/>
+    </filter>
+    <style>
+      .title { font: 700 30px Segoe UI, sans-serif; fill: #172433; }
+      .subtitle { font: 400 16px Segoe UI, sans-serif; fill: #506070; }
+      .lane { font: 700 16px Segoe UI, sans-serif; fill: #314252; letter-spacing: 1px; }
+      .box-title { font: 700 17px Segoe UI, sans-serif; fill: #172433; }
+      .box-text { font: 400 14px Segoe UI, sans-serif; fill: #314252; }
+      .line { stroke: #506070; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+      .dashed { stroke-dasharray: 8 7; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="860" fill="#f7fafc"/>
+  <rect x="32" y="28" width="1336" height="804" rx="18" fill="#ffffff" stroke="#d9e2ea"/>
+  <text x="70" y="78" class="title">Arquitetura de testes | Gestao de Alunos API</text>
+  <text x="70" y="108" class="subtitle">Separacao entre testes internos, testes externos e o fluxo real da API Express</text>
+
+  <rect x="58" y="140" width="1284" height="172" rx="12" fill="#fff9e9" stroke="#e5c66b"/>
+  <text x="82" y="170" class="lane">CAMADA DE TESTES</text>
+  <rect x="82" y="190" width="300" height="90" rx="10" fill="#fff4d6" stroke="#c58b00" stroke-width="2" filter="url(#shadow)"/>
+  <text x="104" y="217" class="box-title">Testes internos</text>
+  <text x="104" y="241" class="box-text">Mocha + Chai + Supertest</text>
+  <text x="104" y="263" class="box-text">importam diretamente src/app.js</text>
+  <rect x="430" y="190" width="300" height="90" rx="10" fill="#fff4d6" stroke="#c58b00" stroke-width="2" filter="url(#shadow)"/>
+  <text x="452" y="217" class="box-title">Testes externos</text>
+  <text x="452" y="241" class="box-text">Mocha + Chai + Supertest</text>
+  <text x="452" y="263" class="box-text">HTTP contra localhost:3000</text>
+  <rect x="778" y="190" width="300" height="90" rx="10" fill="#fff4d6" stroke="#c58b00" stroke-width="2" filter="url(#shadow)"/>
+  <text x="800" y="217" class="box-title">Sinon</text>
+  <text x="800" y="241" class="box-text">stubs e mocks</text>
+  <text x="800" y="263" class="box-text">simula falhas de servicos</text>
+
+  <rect x="58" y="342" width="1284" height="148" rx="12" fill="#edf8ff" stroke="#83c6e5"/>
+  <text x="82" y="372" class="lane">ENTRADA HTTP</text>
+  <rect x="280" y="392" width="300" height="70" rx="10" fill="#dff3ff" stroke="#1683b8" stroke-width="2" filter="url(#shadow)"/>
+  <text x="302" y="420" class="box-title">Express app | src/app.js</text>
+  <text x="302" y="443" class="box-text">app configurado e exportado</text>
+  <rect x="752" y="392" width="300" height="70" rx="10" fill="#dff3ff" stroke="#1683b8" stroke-width="2" filter="url(#shadow)"/>
+  <text x="774" y="420" class="box-title">Servidor | src/server.js</text>
+  <text x="774" y="443" class="box-text">escuta na porta 3000</text>
+
+  <rect x="58" y="520" width="1284" height="170" rx="12" fill="#effaf4" stroke="#8bd3ad"/>
+  <text x="82" y="550" class="lane">API REST</text>
+  <rect x="82" y="570" width="250" height="80" rx="10" fill="#e7f7ed" stroke="#2a9365" stroke-width="2"/>
+  <text x="104" y="598" class="box-title">Middlewares</text>
+  <text x="104" y="621" class="box-text">JWT, autorizacao, erros</text>
+  <rect x="382" y="570" width="250" height="80" rx="10" fill="#e7f7ed" stroke="#2a9365" stroke-width="2"/>
+  <text x="404" y="598" class="box-title">Rotas</text>
+  <text x="404" y="621" class="box-text">/auth, /alunos, /admin</text>
+  <rect x="682" y="570" width="250" height="80" rx="10" fill="#e7f7ed" stroke="#2a9365" stroke-width="2"/>
+  <text x="704" y="598" class="box-title">Controllers</text>
+  <text x="704" y="621" class="box-text">auth, alunos, notas e mais</text>
+  <rect x="982" y="570" width="250" height="80" rx="10" fill="#e7f7ed" stroke="#2a9365" stroke-width="2"/>
+  <text x="1004" y="598" class="box-title">Services</text>
+  <text x="1004" y="621" class="box-text">regras de negocio</text>
+
+  <rect x="58" y="720" width="1284" height="82" rx="12" fill="#f7efff" stroke="#c8a1e5"/>
+  <text x="82" y="750" class="lane">PERSISTENCIA DE TESTE</text>
+  <rect x="430" y="738" width="250" height="50" rx="10" fill="#f4e9ff" stroke="#8950b8" stroke-width="2"/>
+  <text x="452" y="769" class="box-title">Seed | dados iniciais</text>
+  <rect x="760" y="738" width="300" height="50" rx="10" fill="#f4e9ff" stroke="#8950b8" stroke-width="2"/>
+  <text x="782" y="769" class="box-title">db.js | banco em memoria</text>
+
+  <path d="M232 280 L390 392" class="line"/>
+  <path d="M580 427 L752 427" class="line"/>
+  <path d="M882 280 L890 392" class="line dashed"/>
+  <path d="M880 462 L880 520" class="line"/>
+  <path d="M580 462 L207 570" class="line"/>
+  <path d="M332 610 L382 610" class="line"/>
+  <path d="M632 610 L682 610" class="line"/>
+  <path d="M932 610 L982 610" class="line"/>
+  <path d="M1107 650 L1060 738" class="line"/>
+  <path d="M555 738 L555 690" class="line dashed"/>
+</svg>

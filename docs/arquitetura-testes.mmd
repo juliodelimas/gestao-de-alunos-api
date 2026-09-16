@@ -1,0 +1,40 @@
+flowchart LR
+    subgraph TESTES["Camada de testes"]
+        INT["Testes internos\nMocha + Chai + Supertest\nimportam src/app.js"]
+        EXT["Testes externos\nMocha + Chai + Supertest\nHTTP localhost:3000"]
+        STUB["Sinon\nstubs e mocks"]
+    end
+
+    subgraph HTTP["Entrada HTTP"]
+        APP["Express app\nsrc/app.js"]
+        SERVER["Servidor HTTP\nsrc/server.js\nPORT 3000"]
+    end
+
+    subgraph API["API REST"]
+        MIDDLEWARE["Middlewares\nCORS | Morgan | JSON\nJWT | autorizacao | erros"]
+        ROUTES["Rotas\n/auth | /alunos | /admin"]
+        CONTROLLERS["Controllers\nauth | alunos | disciplinas\nnotas | trabalhos"]
+        SERVICES["Services\nregras de negocio"]
+    end
+
+    subgraph DATA["Persistencia de teste"]
+        SEED["Seed\ndados iniciais"]
+        DB["Database em memoria\nsrc/database/db.js"]
+    end
+
+    INT -->|request(app)| APP
+    EXT -->|requisicoes HTTP| SERVER
+    STUB -.->|substitui servicos| SERVICES
+    SERVER --> APP
+    APP --> MIDDLEWARE --> ROUTES --> CONTROLLERS --> SERVICES --> DB
+    SEED --> DB
+    APP -.->|Swagger| DOCS["Swagger UI\n/api-docs"]
+
+    classDef test fill:#fff4d6,stroke:#c58b00,color:#332600,stroke-width:2px;
+    classDef entry fill:#dff3ff,stroke:#1683b8,color:#062b3d,stroke-width:2px;
+    classDef api fill:#e7f7ed,stroke:#2a9365,color:#103a29,stroke-width:2px;
+    classDef data fill:#f4e9ff,stroke:#8950b8,color:#2b123d,stroke-width:2px;
+    class INT,EXT,STUB test;
+    class APP,SERVER,DOCS entry;
+    class MIDDLEWARE,ROUTES,CONTROLLERS,SERVICES api;
+    class SEED,DB data;

@@ -1,0 +1,62 @@
+name: Testes da API
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * *'
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+
+    env:
+      BASE_URL: http://127.0.0.1:3000
+      ADMIN_EMAIL: admin@escola.com
+      ADMIN_SENHA: admin123
+
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Iniciar API
+        run: |
+          nohup npm start > api.log 2>&1 &
+          echo $! > api.pid
+
+      - name: Aguardar API
+        run: |
+          for tentativa in {1..30}; do
+            if curl --fail --silent "$BASE_URL/" > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat api.log
+          exit 1
+
+      - name: Executar testes
+        run: npm run test:report
+
+      - name: Publicar relatório Mochawesome
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mochawesome-report
+          path: mochawesome-report/
+          if-no-files-found: warn
+
+      - name: Publicar log da API em caso de falha
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-log
+          path: api.log
