@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-09-18T01:52:44.450Z",
+  "environment": {
+    "node": "v24.21.0",
+    "os": "win32",
+    "cpu": "Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz",
+    "logicalCpus": 12,
+    "memoryGB": 15.8,
+    "database": "MongoDB local exclusivo -test",
+    "execution": "SuperTest in-process",
+    "limiters": "isolados nesta medicao"
+  },
+  "warmup": 20,
+  "requests": 100,
+  "concurrency": 5,
+  "elapsedMs": 7043.95,
+  "p95Ms": 357.99,
+  "requestsPerSecond": 14.2,
+  "serverErrors": 0,
+  "assertionFailures": 0,
+  "statuses": {
+    "200": 100
+  },
+  "thresholds": {
+    "maxP95Ms": 1000,
+    "minRequestsPerSecond": 5,
+    "maxServerErrors": 0
+  },
+  "passed": true,
+  "limitation": "Meta local aprovada, nao SLA de producao nem gate de CI compartilhado."
+}

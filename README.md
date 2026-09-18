@@ -97,6 +97,36 @@ npm run dev
 O servidor sobe por padrão em `http://localhost:3000` (pode ser alterado com a variável de
 ambiente `PORT`).
 
+### Testes automatizados
+
+Os testes usam Mocha, SuperTest e Chai. Os dados do fluxo de cadastro, login e entrega ficam em
+`test/data/aluno.json`, e os logins reutilizáveis estão em `test/helpers/auth.js`.
+
+Com o MongoDB disponível e as variáveis `TEST_*` configuradas no `.env` (use `.env.example` como base), execute:
+
+```bash
+npm test
+```
+
+A suíte usa `TEST_MONGODB_URI`, com padrão local
+`mongodb://127.0.0.1:27017/gestao-de-alunos-test`. O nome do banco deve terminar
+em `-test`; o `MONGODB_URI` de desenvolvimento não é reutilizado. As contas seed
+permanecem, e os registros criados pelos testes são removidos por escopo.
+No PowerShell com execução de scripts bloqueada, use `npm.cmd test`.
+
+O seed exige `SEED_ADMIN_PASSWORD` e `SEED_STUDENT_PASSWORD`. Gere `JWT_SECRET`
+com um valor aleatório e não publique seu `.env`. A pipeline gera esses valores
+aleatoriamente a cada execução, apenas para o MongoDB temporário do CI; não exige
+GitHub Actions Secrets.
+
+Para sondagens limitadas de formatos, colisão de perfis, tempos de resposta e
+tentativas repetidas, execute `npm run test:explore`. O comando salva metadados
+em `docs/runs/`; não estabelece aprovação de SLA ou política de abuso.
+As decisões pendentes estão em [política operacional](docs/coverage/EP-001-operational-policy.md).
+
+A pipeline do GitHub Actions inicia um serviço MongoDB, instala as dependências com `npm ci` e executa
+essa mesma suíte a cada push ou pull request na branch `main`.
+
 ### Configuração do MongoDB
 
 Por padrão, a API se conecta a um MongoDB local em
@@ -133,7 +163,7 @@ exceto `POST /api/auth/login`.
    ```bash
    curl -X POST http://localhost:3000/api/auth/login \
      -H "Content-Type: application/json" \
-     -d '{"email":"admin@escola.com","senha":"admin123"}'
+     -d '{"email":"<email-admin-seed>","senha":"<senha-admin-seed>"}'
    ```
 
    A resposta traz o `token` e os dados básicos do usuário autenticado (`id`, `nome`, `email`,
@@ -171,15 +201,15 @@ para demonstração.
 
 | id               | nome                       | email             | senha    |
 |------------------|-----------------------------|-------------------|----------|
-| `admin-principal`| Administrador do Sistema   | admin@escola.com  | admin123 |
+| `admin-principal`| Administrador do Sistema   | admin@escola.com  | definida em `SEED_ADMIN_PASSWORD` |
 
 ### Alunos (`/api/admin/alunos`)
 
 | id                   | nome          | email                       | matrícula | senha  |
 |----------------------|---------------|------------------------------|-----------|--------|
-| `aluno-ana-souza`    | Ana Souza     | ana.souza@example.com       | 2024001   | 123456 |
-| `aluno-bruno-lima`   | Bruno Lima    | bruno.lima@example.com      | 2024002   | 123456 |
-| `aluno-carla-mendes` | Carla Mendes  | carla.mendes@example.com    | 2024003   | 123456 |
+| `aluno-ana-souza`    | Ana Souza     | ana.souza@example.com       | 2024001   | definida em `SEED_STUDENT_PASSWORD` |
+| `aluno-bruno-lima`   | Bruno Lima    | bruno.lima@example.com      | 2024002   | definida em `SEED_STUDENT_PASSWORD` |
+| `aluno-carla-mendes` | Carla Mendes  | carla.mendes@example.com    | 2024003   | definida em `SEED_STUDENT_PASSWORD` |
 
 ### Disciplinas (`/api/admin/disciplinas`)
 
@@ -223,7 +253,7 @@ para demonstração.
 # Login como admin
 ADMIN_TOKEN=$(curl -s -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@escola.com","senha":"admin123"}' | node -pe 'JSON.parse(require("fs").readFileSync(0)).token')
+  -d "{\"email\":\"$TEST_ADMIN_EMAIL\",\"senha\":\"$TEST_ADMIN_PASSWORD\"}" | node -pe 'JSON.parse(require("fs").readFileSync(0)).token')
 
 # Admin: listar alunos
 curl http://localhost:3000/api/admin/alunos -H "Authorization: Bearer $ADMIN_TOKEN"
@@ -243,7 +273,7 @@ curl -X POST http://localhost:3000/api/admin/notas \
 # Login como aluno (Ana)
 ALUNO_TOKEN=$(curl -s -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"ana.souza@example.com","senha":"123456"}' | node -pe 'JSON.parse(require("fs").readFileSync(0)).token')
+  -d "{\"email\":\"$TEST_STUDENT_EMAIL\",\"senha\":\"$TEST_STUDENT_PASSWORD\"}" | node -pe 'JSON.parse(require("fs").readFileSync(0)).token')
 
 # Aluno: ver minhas disciplinas
 curl http://localhost:3000/api/alunos/aluno-ana-souza/disciplinas -H "Authorization: Bearer $ALUNO_TOKEN"

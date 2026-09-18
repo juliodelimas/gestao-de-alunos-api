@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import bcrypt from 'bcryptjs';
 import mongoose from '../database/db.js';
+import identityHooks from './identityHooks.js';
 
 const { Schema } = mongoose;
 
@@ -25,6 +26,8 @@ const administradorSchema = new Schema(
   { timestamps: true, toJSON: toPlainOptions, toObject: toPlainOptions }
 );
 
+administradorSchema.set('optimisticConcurrency', true);
+identityHooks(administradorSchema);
 administradorSchema.pre('save', function hashSenha() {
   if (!this.isModified('senha')) return;
   this.senha = bcrypt.hashSync(this.senha, 10);

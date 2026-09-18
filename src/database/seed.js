@@ -5,9 +5,12 @@ import Matricula from '../models/matricula.model.js';
 import Nota from '../models/nota.model.js';
 import Trabalho from '../models/trabalho.model.js';
 
-// Senha padrão de todos os alunos seedados, apenas para fins de teste/demonstração.
-const SENHA_PADRAO_ALUNO = '123456';
-const SENHA_PADRAO_ADMIN = 'admin123';
+const SENHA_PADRAO_ALUNO = process.env.SEED_STUDENT_PASSWORD;
+const SENHA_PADRAO_ADMIN = process.env.SEED_ADMIN_PASSWORD;
+
+if (!SENHA_PADRAO_ALUNO || !SENHA_PADRAO_ADMIN) {
+  throw new Error('SEED_ADMIN_PASSWORD e SEED_STUDENT_PASSWORD devem ser definidos. Consulte .env.example.');
+}
 
 async function seedAdministradores() {
   await Administrador.create([

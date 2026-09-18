@@ -1,0 +1,21 @@
+{
+  "admin": {
+    "emailEnv": "TEST_ADMIN_EMAIL",
+    "senhaEnv": "TEST_ADMIN_PASSWORD"
+  },
+  "alunos": [
+    {
+      "nome": "Aluno Data Driven",
+      "email": "aluno.data.driven@example.com",
+      "matricula": "DD2026001",
+      "senhaEnv": "TEST_NEW_STUDENT_PASSWORD"
+    }
+  ],
+  "disciplina": {
+    "id": "disciplina-matematica"
+  },
+  "trabalho": {
+    "titulo": "Trabalho Data Driven",
+    "descricao": "Entrega criada pela suíte automatizada."
+  }
+}

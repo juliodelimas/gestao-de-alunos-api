@@ -2,7 +2,7 @@ name: Testes de API
 
 on:
   push:
-    branches: [main]
+    branches: [main, trabalho-extra]
   pull_request:
     branches: [main]
 
@@ -33,6 +33,26 @@ jobs:
 
       - name: Instalar dependências
         run: npm ci
+
+      - name: Gerar credenciais efêmeras de teste
+        shell: bash
+        run: |
+          admin_password="$(openssl rand -base64 32 | tr -d '\n')"
+          student_password="$(openssl rand -base64 32 | tr -d '\n')"
+          new_student_password="$(openssl rand -base64 32 | tr -d '\n')"
+          invalid_password="$(openssl rand -base64 32 | tr -d '\n')"
+          {
+            echo "JWT_SECRET=$(openssl rand -hex 32)"
+            echo "SEED_ADMIN_PASSWORD=${admin_password}"
+            echo "SEED_STUDENT_PASSWORD=${student_password}"
+            echo "TEST_ADMIN_EMAIL=admin@escola.com"
+            echo "TEST_ADMIN_PASSWORD=${admin_password}"
+            echo "TEST_STUDENT_EMAIL=ana.souza@example.com"
+            echo "TEST_STUDENT_PASSWORD=${student_password}"
+            echo "TEST_NEW_STUDENT_PASSWORD=${new_student_password}"
+            echo "TEST_INVALID_PASSWORD=${invalid_password}"
+            echo "TEST_UNKNOWN_EMAIL=nao-existe@example.com"
+          } >> "$GITHUB_ENV"
 
       - name: Executar testes
         run: npm test

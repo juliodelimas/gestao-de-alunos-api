@@ -1,0 +1,532 @@
+{
+  "timestamp": "2026-09-18T01:31:01.613Z",
+  "mode": "exploracao-sem-veredito-de-SLA",
+  "environment": "SuperTest in-process; MongoDB exclusivo de teste",
+  "rows": [
+    {
+      "label": "email: numero",
+      "status": 401,
+      "durationMs": 5.71,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "email: booleano",
+      "status": 401,
+      "durationMs": 4.48,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "email: array",
+      "status": 401,
+      "durationMs": 4,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "email: objeto",
+      "status": 500,
+      "durationMs": 3.31,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "email: operador MongoDB",
+      "status": 200,
+      "durationMs": 75.69,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "token",
+        "usuario"
+      ],
+      "tokenReturned": true,
+      "role": "admin"
+    },
+    {
+      "label": "email: um caractere",
+      "status": 401,
+      "durationMs": 3.98,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "email: 256 caracteres",
+      "status": 401,
+      "durationMs": 3.42,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "email: 4096 caracteres",
+      "status": 401,
+      "durationMs": 3.76,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "senha: numero",
+      "status": 500,
+      "durationMs": 3.63,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "senha: booleano",
+      "status": 500,
+      "durationMs": 3.1,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "senha: array",
+      "status": 500,
+      "durationMs": 2.83,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "senha: objeto",
+      "status": 500,
+      "durationMs": 2.86,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "senha: operador MongoDB",
+      "status": 500,
+      "durationMs": 2.64,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "senha: um caractere",
+      "status": 401,
+      "durationMs": 71.74,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "senha: 256 caracteres",
+      "status": 401,
+      "durationMs": 76.06,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "senha: 4096 caracteres",
+      "status": 401,
+      "durationMs": 71.04,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "email com espacos",
+      "status": 401,
+      "durationMs": 3.41,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "email maiusculo",
+      "status": 401,
+      "durationMs": 2.87,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "email Unicode inexistente",
+      "status": 401,
+      "durationMs": 3.91,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "email formato invalido",
+      "status": 401,
+      "durationMs": 3.52,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "JSON malformado",
+      "status": 500,
+      "durationMs": 2.2,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "text/plain",
+      "status": 400,
+      "durationMs": 1.76,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "sem content type",
+      "status": 400,
+      "durationMs": 1.6,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "payload acima de 100 KiB",
+      "status": 500,
+      "durationMs": 2.52,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "colisao: credencial admin",
+      "status": 200,
+      "durationMs": 71.21,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "token",
+        "usuario"
+      ],
+      "tokenReturned": true,
+      "role": "admin"
+    },
+    {
+      "label": "colisao: credencial aluno",
+      "status": 401,
+      "durationMs": 70.68,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "baseline valid 1",
+      "status": 200,
+      "durationMs": 71.44,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "token",
+        "usuario"
+      ],
+      "tokenReturned": true,
+      "role": "admin"
+    },
+    {
+      "label": "baseline wrongPassword 1",
+      "status": 401,
+      "durationMs": 70.18,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "baseline unknownEmail 1",
+      "status": 401,
+      "durationMs": 3.76,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "baseline wrongPassword 2",
+      "status": 401,
+      "durationMs": 70.61,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "baseline unknownEmail 2",
+      "status": 401,
+      "durationMs": 3.28,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "baseline valid 2",
+      "status": 200,
+      "durationMs": 69.32,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "token",
+        "usuario"
+      ],
+      "tokenReturned": true,
+      "role": "admin"
+    },
+    {
+      "label": "baseline unknownEmail 3",
+      "status": 401,
+      "durationMs": 3.2,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "baseline valid 3",
+      "status": 200,
+      "durationMs": 69.4,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "token",
+        "usuario"
+      ],
+      "tokenReturned": true,
+      "role": "admin"
+    },
+    {
+      "label": "baseline wrongPassword 3",
+      "status": 401,
+      "durationMs": 73.13,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "baseline valid 4",
+      "status": 200,
+      "durationMs": 69.67,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "token",
+        "usuario"
+      ],
+      "tokenReturned": true,
+      "role": "admin"
+    },
+    {
+      "label": "baseline wrongPassword 4",
+      "status": 401,
+      "durationMs": 68.77,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "baseline unknownEmail 4",
+      "status": 401,
+      "durationMs": 3.21,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "baseline wrongPassword 5",
+      "status": 401,
+      "durationMs": 69.84,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "baseline unknownEmail 5",
+      "status": 401,
+      "durationMs": 3.5,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "baseline valid 5",
+      "status": 200,
+      "durationMs": 69.8,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "token",
+        "usuario"
+      ],
+      "tokenReturned": true,
+      "role": "admin"
+    },
+    {
+      "label": "baseline unknownEmail 6",
+      "status": 401,
+      "durationMs": 3.91,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "baseline valid 6",
+      "status": 200,
+      "durationMs": 70.1,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "token",
+        "usuario"
+      ],
+      "tokenReturned": true,
+      "role": "admin"
+    },
+    {
+      "label": "baseline wrongPassword 6",
+      "status": 401,
+      "durationMs": 68.87,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "error"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "reutilizacao token 1",
+      "status": 200,
+      "durationMs": 5.07,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "tokenReturned": false
+    },
+    {
+      "label": "reutilizacao token 2",
+      "status": 200,
+      "durationMs": 3.53,
+      "contentType": "application/json; charset=utf-8",
+      "fields": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "tokenReturned": false
+    }
+  ],
+  "percentiles": {
+    "valid": {
+      "count": 6,
+      "medianMs": 69.735,
+      "p95Ms": 71.44
+    },
+    "wrongPassword": {
+      "count": 6,
+      "medianMs": 70.01,
+      "p95Ms": 73.13
+    },
+    "unknownEmail": {
+      "count": 6,
+      "medianMs": 3.3899999999999997,
+      "p95Ms": 3.91
+    }
+  },
+  "internalErrors": 8,
+  "burst": {
+    "requests": 12,
+    "concurrency": 12,
+    "durationMs": 820.12,
+    "requestsPerSecond": 14.63,
+    "statuses": [
+      401,
+      401,
+      401,
+      401,
+      401,
+      401,
+      401,
+      401,
+      401,
+      401,
+      401,
+      401
+    ]
+  },
+  "reuse": [
+    200,
+    200
+  ],
+  "limitations": "Amostra pequena/local; sem prova de seguranca temporal, capacidade ou ausencia de rate limiting em outros volumes/camadas."
+}

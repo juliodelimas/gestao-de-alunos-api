@@ -3,6 +3,7 @@ import Matricula from '../models/matricula.model.js';
 import Disciplina from '../models/disciplina.model.js';
 import Nota from '../models/nota.model.js';
 import ApiError from '../utils/ApiError.js';
+import { normalizeEmail, validatePassword } from '../utils/identityPolicy.js';
 
 export async function listar() {
   return Aluno.find();
@@ -15,11 +16,14 @@ export async function buscarPorId(id) {
 }
 
 export async function criar(dados) {
-  const { nome, email, matricula, senha } = dados;
+  const { nome, matricula, senha } = dados;
+  let { email } = dados;
   if (!nome || !email || !matricula || !senha) {
     throw new ApiError(400, 'Os campos "nome", "email", "matricula" e "senha" são obrigatórios.');
   }
 
+  email = normalizeEmail(email);
+  validatePassword(senha);
   const jaExiste = await Aluno.exists({ $or: [{ matricula }, { email }] });
   if (jaExiste) {
     throw new ApiError(409, 'Já existe um aluno cadastrado com essa matrícula ou e-mail.');
@@ -34,9 +38,9 @@ export async function atualizar(id, dados) {
   const aluno = await buscarPorId(id);
   const { nome, email, matricula, senha } = dados;
   if (nome !== undefined) aluno.nome = nome;
-  if (email !== undefined) aluno.email = email;
+  if (email !== undefined) aluno.email = normalizeEmail(email);
   if (matricula !== undefined) aluno.matricula = matricula;
-  if (senha !== undefined) aluno.senha = senha;
+  if (senha !== undefined) aluno.senha = validatePassword(senha);
   await aluno.save();
   return aluno;
 }

@@ -1,0 +1,10 @@
+{
+  "development": {
+    "nonCanonical": 0,
+    "collisions": 0
+  },
+  "test": {
+    "nonCanonical": 0,
+    "collisions": 0
+  }
+}

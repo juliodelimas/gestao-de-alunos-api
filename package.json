@@ -7,13 +7,16 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "mocha test/**/*.test.js --exit"
+    "test": "mocha --require ./test/setup.cjs test/**/*.test.js --timeout 15000",
+    "test:explore": "node --require ./test/setup.cjs test/exploration.js",
+    "test:performance": "node --require ./test/setup.cjs test/performance.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "dotenv": "^18.0.0",
     "esm": "^3.2.25",
     "express": "^4.19.2",
     "js-yaml": "^4.1.0",
