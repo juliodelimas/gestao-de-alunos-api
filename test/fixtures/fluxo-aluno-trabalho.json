@@ -1,0 +1,84 @@
+{
+  "cenarios": [
+    {
+      "cenario": "aluno de exatas entregando uma lista de Matemática",
+      "aluno": {
+        "nome": "Daniel Teixeira",
+        "emailBase": "daniel.teixeira",
+        "matriculaBase": "2025101",
+        "senha": "senha-daniel-123"
+      },
+      "disciplinaId": "disciplina-matematica",
+      "trabalho": {
+        "titulo": "Lista de Exercícios 3 - Funções Quadráticas",
+        "descricao": "Resolução comentada dos exercícios 1 a 20 do capítulo 4."
+      }
+    },
+    {
+      "cenario": "aluna de humanas entregando um trabalho de História",
+      "aluno": {
+        "nome": "Eduarda Nogueira",
+        "emailBase": "eduarda.nogueira",
+        "matriculaBase": "2025102",
+        "senha": "senha-eduarda-456"
+      },
+      "disciplinaId": "disciplina-historia",
+      "trabalho": {
+        "titulo": "Ensaio - Revolução Francesa",
+        "descricao": "Ensaio de 5 páginas sobre as causas econômicas da Revolução Francesa."
+      }
+    },
+    {
+      "cenario": "aluno de programação entregando um trabalho sem descrição",
+      "aluno": {
+        "nome": "Felipe Andrade",
+        "emailBase": "felipe.andrade",
+        "matriculaBase": "2025103",
+        "senha": "senha-felipe-789"
+      },
+      "disciplinaId": "disciplina-programacao-web",
+      "trabalho": {
+        "titulo": "API REST com Express"
+      }
+    }
+  ],
+  "cadastrosInvalidos": [
+    {
+      "cenario": "sem o campo senha",
+      "payload": { "nome": "Sem Senha", "email": "sem.senha@example.com", "matricula": "2025901" },
+      "statusEsperado": 400,
+      "erroEsperado": "Os campos \"nome\", \"email\", \"matricula\" e \"senha\" são obrigatórios."
+    },
+    {
+      "cenario": "sem o campo nome",
+      "payload": { "email": "sem.nome@example.com", "matricula": "2025902", "senha": "123456" },
+      "statusEsperado": 400,
+      "erroEsperado": "Os campos \"nome\", \"email\", \"matricula\" e \"senha\" são obrigatórios."
+    },
+    {
+      "cenario": "e-mail já cadastrado pelo seed",
+      "payload": {
+        "nome": "Ana Souza Duplicada",
+        "email": "ana.souza@example.com",
+        "matricula": "2025903",
+        "senha": "123456"
+      },
+      "statusEsperado": 409,
+      "erroEsperado": "Já existe um aluno cadastrado com essa matrícula ou e-mail."
+    }
+  ],
+  "trabalhosInvalidos": [
+    {
+      "cenario": "disciplina em que o aluno não está matriculado",
+      "payload": { "disciplinaId": "disciplina-historia", "titulo": "Trabalho fora de matrícula" },
+      "statusEsperado": 409,
+      "erroEsperado": "O aluno não está matriculado nesta disciplina."
+    },
+    {
+      "cenario": "sem o campo titulo",
+      "payload": { "disciplinaId": "disciplina-matematica" },
+      "statusEsperado": 400,
+      "erroEsperado": "Os campos \"disciplinaId\" e \"titulo\" são obrigatórios."
+    }
+  ]
+}

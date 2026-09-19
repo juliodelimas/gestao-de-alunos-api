@@ -5,6 +5,7 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   test:
@@ -28,7 +29,8 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          # 22 LTS: os testes importam JSON com import attributes (`with { type: 'json' }`).
+          node-version: 22
           cache: npm
 
       - name: Instalar dependências
@@ -37,4 +39,9 @@ jobs:
       - name: Executar testes
         run: npm test
         env:
-          MONGODB_URI: mongodb://127.0.0.1:27017/gestao-de-alunos-test
+          # Não há .env no CI: o dotenv não faz nada e valem estas variáveis.
+          NODE_ENV: test
+          MONGODB_URI_TEST: mongodb://127.0.0.1:27017/gestao-de-alunos-test
+          JWT_SECRET: segredo-de-ci-gestao-de-alunos
+          ADMIN_EMAIL: admin@escola.com
+          ADMIN_SENHA: admin123

@@ -38,9 +38,12 @@ banco está vazio (veja [Dados fake pré-carregados](#dados-fake-pré-carregados
 - **js-yaml** — carregamento do arquivo de documentação OpenAPI em YAML
 - **swagger-ui-express** — renderização do Swagger UI a partir do YAML
 - **cors** — liberação de CORS para consumo por outros clientes/origens
-- **morgan** — log de requisições HTTP no console
+- **morgan** — log de requisições HTTP no console (desligado durante os testes)
+- **dotenv** — carregamento das variáveis de ambiente a partir do arquivo `.env`
 - **nodemon** (dependência de desenvolvimento) — reinício automático do servidor durante o
   desenvolvimento
+- **Mocha**, **Chai** e **SuperTest** (dependências de desenvolvimento) — suíte de testes de API
+  (veja [Testes automatizados](#testes-automatizados))
 
 A autenticação é real: senhas com hash (bcrypt) e sessões via JWT assinado.
 
@@ -51,7 +54,7 @@ src/
   app.js                 # configuração do Express: middlewares, Swagger, rotas, erros
   server.js              # ponto de entrada: sobe o servidor HTTP (separado do app)
   config/
-    jwt.js                # segredo e tempo de expiração do JWT
+    env.js                # dotenv + variáveis de ambiente (único ponto que lê process.env)
   routes/                # definição das rotas (Express Router), sem lógica de negócio
     index.js
     auth.routes.js         # login -> /api/auth (público)
@@ -74,6 +77,11 @@ src/
     asyncHandler.js
 docs/
   openapi.yaml            # especificação Swagger/OpenAPI (fonte da documentação)
+test/
+  setup.js                # banco de teste + fechamento da conexão (root hook do Mocha)
+  fixtures/               # massa de dados em JSON (Data-Driven Testing)
+  helpers/                # helpers de login de admin e de aluno
+  *.test.js               # suítes de teste
 ```
 
 ## Instalação e execução
@@ -110,6 +118,88 @@ MONGODB_URI="mongodb://usuario:senha@host:27017/nome-do-banco" npm start
 Na primeira execução com o banco vazio, a API popula automaticamente as coleções com o conjunto de
 dados fake descrito em [Dados fake pré-carregados](#dados-fake-pré-carregados). Em execuções
 seguintes, os dados já existentes são preservados.
+
+## Variáveis de ambiente (dotenv)
+
+A configuração é carregada com **dotenv** em [`src/config/env.js`](src/config/env.js), que é o
+único lugar que lê `process.env`. Copie o modelo e ajuste o que precisar:
+
+```bash
+cp .env.example .env
+```
+
+| variável | usada para | padrão |
+|---|---|---|
+| `PORT` | porta da API | `3000` |
+| `MONGODB_URI` | conexão do MongoDB | `mongodb://127.0.0.1:27017/gestao-de-alunos` |
+| `JWT_SECRET` | segredo que assina os tokens | `segredo-dev-gestao-de-alunos` |
+| `JWT_EXPIRES_IN` | expiração do token | `8h` |
+| `MONGODB_URI_TEST` | banco usado pelos testes | cai em `MONGODB_URI` |
+| `ADMIN_EMAIL` / `ADMIN_SENHA` | credenciais do helper de login de admin | admin do seed |
+
+O `.env` não é versionado. Em ambientes sem o arquivo (como o GitHub Actions), o dotenv
+simplesmente não faz nada e valem as variáveis de ambiente já definidas.
+
+## Testes automatizados
+
+Suíte de testes de API com **Mocha**, **Chai** e **SuperTest**, cobrindo o fluxo completo:
+admin loga → cadastra um aluno → matricula o aluno numa disciplina → o aluno loga → o aluno
+registra a entrega de um trabalho.
+
+```bash
+npm test
+```
+
+> Os testes precisam de um MongoDB no ar. Por padrão usam o banco `gestao-de-alunos-test`
+> (`MONGODB_URI_TEST`), separado do banco de desenvolvimento.
+
+### Organização
+
+```
+.mocharc.json              # spec, timeout e o require do setup
+test/
+  setup.js                 # aponta para o banco de teste e fecha a conexão ao final (root hook)
+  fixtures/                # Data-Driven Testing: a massa de dados vive aqui, em JSON
+    logins.json            # cenários de login válidos e inválidos
+    fluxo-aluno-trabalho.json  # cenários do fluxo completo + casos de erro
+  helpers/
+    auth.helper.js         # loginComoAdmin() e loginComoAluno()
+    dados.helper.js        # gera e-mail/matrícula únicos por execução
+  auth.test.js             # login, orientado pelos dados de logins.json
+  fluxo-aluno-trabalho.test.js  # fluxo completo, orientado pelos dados do JSON
+```
+
+### Data-Driven Testing
+
+Nenhum caso de teste tem dados embutidos no código: os cenários ficam nos arquivos JSON de
+`test/fixtures/` e os testes iteram sobre eles. Para cobrir um caso novo, basta acrescentar um
+objeto ao JSON — nenhum código de teste muda.
+
+Como o banco persiste entre execuções e a API rejeita e-mail/matrícula duplicados com `409`, a
+massa guarda apenas a *base* do e-mail e da matrícula; `dados.helper.js` acrescenta um sufixo
+aleatório a cada execução, e o que é criado é removido ao final. Assim a suíte pode rodar
+repetidas vezes sem acumular lixo.
+
+### Helpers de login
+
+```js
+import { loginComoAdmin, loginComoAluno } from './helpers/auth.helper.js';
+
+const admin = await loginComoAdmin();               // credenciais vêm do .env
+const aluno = await loginComoAluno(email, senha);
+
+await request(app)
+  .get('/api/admin/alunos')
+  .set('Authorization', admin.authorization);       // "Bearer <token>" pronto
+```
+
+Ambos devolvem `{ token, usuario, authorization }` e falham com uma mensagem explícita se a
+autenticação não retornar `200`.
+
+### Integração contínua
+
+O workflow [`.github/workflows/tests.yml`](.github/workflows/tests.yml) roda `npm test` a cada
+push e pull request para `main`, num `ubuntu-latest` com Node 22 e um serviço MongoDB 7.
 
 ## Documentação da API (Swagger)
 

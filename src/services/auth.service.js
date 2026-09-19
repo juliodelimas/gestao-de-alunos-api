@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import Administrador from '../models/admin.model.js';
 import Aluno from '../models/aluno.model.js';
 import ApiError from '../utils/ApiError.js';
-import { JWT_SECRET, JWT_EXPIRES_IN } from '../config/jwt.js';
+import { JWT_SECRET, JWT_EXPIRES_IN } from '../config/env.js';
 
 function gerarToken(usuario) {
   return jwt.sign({ sub: usuario.id, role: usuario.role, nome: usuario.nome }, JWT_SECRET, {

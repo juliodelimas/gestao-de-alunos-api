@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import ApiError from '../utils/ApiError.js';
-import { JWT_SECRET } from '../config/jwt.js';
+import { JWT_SECRET } from '../config/env.js';
 
 function authenticate(req, res, next) {
   const authHeader = req.headers.authorization;

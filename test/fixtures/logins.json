@@ -1,0 +1,53 @@
+{
+  "validos": [
+    {
+      "cenario": "administrador pré-cadastrado pelo seed",
+      "email": "admin@escola.com",
+      "senha": "admin123",
+      "roleEsperado": "admin",
+      "nomeEsperado": "Administrador do Sistema"
+    },
+    {
+      "cenario": "aluna Ana Souza, pré-cadastrada pelo seed",
+      "email": "ana.souza@example.com",
+      "senha": "123456",
+      "roleEsperado": "aluno",
+      "nomeEsperado": "Ana Souza"
+    },
+    {
+      "cenario": "aluno Bruno Lima, pré-cadastrado pelo seed",
+      "email": "bruno.lima@example.com",
+      "senha": "123456",
+      "roleEsperado": "aluno",
+      "nomeEsperado": "Bruno Lima"
+    }
+  ],
+  "invalidos": [
+    {
+      "cenario": "senha incorreta para um e-mail existente",
+      "email": "admin@escola.com",
+      "senha": "senha-incorreta",
+      "statusEsperado": 401,
+      "erroEsperado": "E-mail ou senha inválidos."
+    },
+    {
+      "cenario": "e-mail que não existe no banco",
+      "email": "ninguem@escola.com",
+      "senha": "admin123",
+      "statusEsperado": 401,
+      "erroEsperado": "E-mail ou senha inválidos."
+    },
+    {
+      "cenario": "senha ausente no corpo da requisição",
+      "email": "admin@escola.com",
+      "statusEsperado": 400,
+      "erroEsperado": "Os campos \"email\" e \"senha\" são obrigatórios."
+    },
+    {
+      "cenario": "e-mail ausente no corpo da requisição",
+      "senha": "admin123",
+      "statusEsperado": 400,
+      "erroEsperado": "Os campos \"email\" e \"senha\" são obrigatórios."
+    }
+  ]
+}
