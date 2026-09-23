@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "mocha test/**/*.test.js --exit"
+    "test": "mocha --file test/setup.js test/**/*.test.js --exit"
   },
   "author": "",
   "license": "ISC",
@@ -21,11 +21,14 @@
     "mongoose": "^9.9.3",
     "morgan": "^1.10.0",
     "swagger-ui-express": "^5.0.1"
+  ,
+    "dotenv": "^16.0.0"
   },
   "devDependencies": {
     "chai": "^6.2.2",
     "mocha": "^11.8.0",
     "nodemon": "^3.1.4",
-    "supertest": "^7.2.2"
+    "supertest": "^7.2.2",
+    "mongodb-memory-server": "^8.12.1"
   }
 }
