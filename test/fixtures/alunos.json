@@ -1,0 +1,36 @@
+{
+  "cadastroAlunoSucesso": {
+    "dados": {
+      "nome": "Joao de Lima",
+      "email": "joao.lima@example.com",
+      "matricula": "JL126543526",
+      "senha": "123456"
+    },
+    "esperado": {
+      "statusCode": 201,
+      "role": "aluno"
+    }
+  },
+  "cadastroAlunoErro": {
+    "dados": {
+      "nome": "Maria de Souza",
+      "email": "maria.souza@example.com",
+      "matricula": "MS126543527"
+    },
+    "esperado": {
+      "statusCode": 400,
+      "error": "Os campos \"nome\", \"email\", \"matricula\" e \"senha\" são obrigatórios."
+    }
+  },
+  "removeAlunoSucesso": {
+    "dados": {
+      "nome": "Carlos de Lima",
+      "email": "carlos.lima@example.com",
+      "matricula": "CL126543526",
+      "senha": "123456"
+    },
+    "esperado": {
+      "statusCode": 204
+    }
+  }
+}

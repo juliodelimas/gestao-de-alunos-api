@@ -1,0 +1,33 @@
+{
+  "cadastroDisciplinaSucesso": {
+    "dadosDisciplina": {
+        "nome": "Programação API Rest",
+        "codigo": "PA301",
+        "cargaHoraria": 80
+    },
+    "esperado": {
+      "statusCode": 201
+    }
+  },
+  "cadastroDisciplinaErro": {
+    "dadosDisciplinaErro": {
+        "nome": "",
+        "codigo": "PA301",
+        "cargaHoraria": 80
+    },
+    "esperado": {
+      "statusCode": 400,
+      "error": "Os campos \"nome\" e \"codigo\" são obrigatórios."
+    }
+  },
+    "removeDisciplinaSucesso": {
+    "dadosDisciplina": {
+        "nome": "Padrão de Projeto",
+        "codigo": "PP401",
+        "cargaHoraria": 50
+    },
+    "esperado": {
+      "statusCode": 204
+    }
+  }
+}

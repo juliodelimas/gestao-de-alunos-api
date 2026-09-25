@@ -1,0 +1,26 @@
+[
+    {
+        "dadosAluno": {
+            "nome": "Gustavo Lima",
+            "email": "gustavo.lima@example.com",
+            "matricula": "G126543526",
+            "senha": "123456"
+        },
+        "dadosDisciplina": {
+            "nome": "Programação Web",
+            "codigo": "PRW201",
+            "cargaHoraria": 80,
+            "id": "disciplina-programacao-web"
+        },
+        "dadosTrabalho": {
+            "titulo": "Lista de Exercicios da aula 9",
+            "descricao": "Resolução dos exercícios da aula 9"
+        },
+        "resposta": {
+            "statusCodeEsperado": 201,
+            "status": "entregue",
+            "nota": null,
+            "feedback": null
+        }        
+    }
+]
