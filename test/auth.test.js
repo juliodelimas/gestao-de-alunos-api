@@ -4,9 +4,7 @@ import mongoose from 'mongoose';
 import app from '../src/app.js';
 
 describe('POST /api/auth/login', () => {
-  after(async () => {
-    await mongoose.connection.close();
-  });
+  // Do not close the mongoose connection here — test setup manages DB lifecycle.
 
   it('deve retornar 200 e um token quando o admin informar e-mail e senha corretos', async () => {
     const resposta = await request(app)

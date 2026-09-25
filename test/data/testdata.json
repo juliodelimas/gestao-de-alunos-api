@@ -1,0 +1,18 @@
+{
+  "admin": {
+    "email": "admin@escola.com",
+    "senha": "admin123"
+  },
+  "newAluno": {
+    "nome": "Test Aluno",
+    "email": "test.aluno@example.com",
+    "matricula": "2025001",
+    "senha": "senhaTeste"
+  },
+  "disciplinaId": "disciplina-programacao-web",
+  "trabalho": {
+    "titulo": "Projeto de Teste",
+    "descricao": "Entrega do projeto de teste automatizado",
+    "disciplinaId": "disciplina-programacao-web"
+  }
+}
