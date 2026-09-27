@@ -1,0 +1,9 @@
+{
+    "aluno": {
+        "nome": "Ada Lovelace",
+        "email": "ada.lovelace@example.com",
+        "matricula": "2026090001",
+        "senha": "123456"
+    }
+}
+

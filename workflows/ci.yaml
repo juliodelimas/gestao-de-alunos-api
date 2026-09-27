@@ -1,0 +1,27 @@
+name: Pipeline 
+
+on:
+  # Execução manual através da aba "Actions" no GitHub
+  workflow_dispatch:
+
+jobs:
+  unit-tests:
+    runs-on:  ubuntu-22.04
+    steps:
+      # clone do projeto
+      - uses: actions/checkout@v4    
+
+      #instalação do node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+
+      # instalação das dependencias
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start servidor
+        run: npm start  
+        
+      - name: Execução dos testes unitários
+        run: npm test
