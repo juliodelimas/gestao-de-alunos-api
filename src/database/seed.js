@@ -1,9 +1,7 @@
-import Administrador from '../models/admin.model.js';
-import Aluno from '../models/aluno.model.js';
-import Disciplina from '../models/disciplina.model.js';
-import Matricula from '../models/matricula.model.js';
-import Nota from '../models/nota.model.js';
-import Trabalho from '../models/trabalho.model.js';
+import bcrypt from 'bcrypt';
+import db from './db.js';
+
+const agora = new Date().toISOString();
 
 // Senha padrão de todos os alunos seedados, apenas para fins de teste/demonstração.
 const SENHA_PADRAO_ALUNO = '123456';

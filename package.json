@@ -7,13 +7,16 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "mocha test/**/*.test.js --exit"
+    "test": "mocha test/**/**/*.test.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
+    "@faker-js/faker": "^10.6.0",
+    "bcrypt": "^6.0.0",
+    "chai": "^6.2.2",
     "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
     "esm": "^3.2.25",
     "express": "^4.19.2",
     "js-yaml": "^4.1.0",

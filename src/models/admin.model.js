@@ -1,6 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import bcrypt from 'bcryptjs';
-import mongoose from '../database/db.js';
+import bcrypt from 'bcrypt';
 
 const { Schema } = mongoose;
 

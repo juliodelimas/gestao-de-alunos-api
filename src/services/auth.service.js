@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
-import Administrador from '../models/admin.model.js';
-import Aluno from '../models/aluno.model.js';
+import bcrypt from 'bcrypt';
+import db from '../database/db.js';
 import ApiError from '../utils/ApiError.js';
 import { JWT_SECRET, JWT_EXPIRES_IN } from '../config/jwt.js';
 
@@ -20,7 +19,7 @@ export async function login({ email, senha }) {
   const aluno = admin ? null : await Aluno.findOne({ email });
   const usuario = admin || aluno;
 
-  if (!usuario || !bcrypt.compareSync(senha, usuario.senha)) {
+  if (!usuario || !(await bcrypt.compare(senha, usuario.senha))) {
     throw new ApiError(401, 'E-mail ou senha inválidos.');
   }
 

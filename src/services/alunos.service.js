@@ -1,7 +1,6 @@
-import Aluno from '../models/aluno.model.js';
-import Matricula from '../models/matricula.model.js';
-import Disciplina from '../models/disciplina.model.js';
-import Nota from '../models/nota.model.js';
+import bcrypt from 'bcrypt';
+import db from '../database/db.js';
+import { createAluno } from '../models/aluno.model.js';
 import ApiError from '../utils/ApiError.js';
 
 export async function listar() {
@@ -14,31 +13,37 @@ export async function buscarPorId(id) {
   return aluno;
 }
 
+function existeConflito({ matricula, email }) {
+  return db.all('alunos').some((a) => a.matricula === matricula || a.email === email);
+}
+
 export async function criar(dados) {
   const { nome, email, matricula, senha } = dados;
   if (!nome || !email || !matricula || !senha) {
     throw new ApiError(400, 'Os campos "nome", "email", "matricula" e "senha" são obrigatórios.');
   }
 
-  const jaExiste = await Aluno.exists({ $or: [{ matricula }, { email }] });
-  if (jaExiste) {
-    throw new ApiError(409, 'Já existe um aluno cadastrado com essa matrícula ou e-mail.');
-  }
+  const mensagemConflito = 'Já existe um aluno cadastrado com essa matrícula ou e-mail.';
+  if (existeConflito({ matricula, email })) throw new ApiError(409, mensagemConflito);
 
-  const aluno = new Aluno({ nome, email, matricula, senha });
-  await aluno.save();
+  const aluno = await createAluno({ nome, email, matricula, senha });
+
+  // O hash é assíncrono: outra requisição pode ter cadastrado o mesmo aluno enquanto esperávamos.
+  if (existeConflito({ matricula, email })) throw new ApiError(409, mensagemConflito);
+  db.insert('alunos', aluno);
   return aluno;
 }
 
 export async function atualizar(id, dados) {
-  const aluno = await buscarPorId(id);
+  buscarPorId(id);
   const { nome, email, matricula, senha } = dados;
-  if (nome !== undefined) aluno.nome = nome;
-  if (email !== undefined) aluno.email = email;
-  if (matricula !== undefined) aluno.matricula = matricula;
-  if (senha !== undefined) aluno.senha = senha;
-  await aluno.save();
-  return aluno;
+  const senhaHash = senha !== undefined ? await bcrypt.hash(senha, 10) : undefined;
+  return db.update('alunos', id, {
+    ...(nome !== undefined && { nome }),
+    ...(email !== undefined && { email }),
+    ...(matricula !== undefined && { matricula }),
+    ...(senha !== undefined && { senha: senhaHash }),
+  });
 }
 
 export async function remover(id) {
